@@ -1,0 +1,236 @@
+openapi: 3.0.0
+info:
+  title: Swagger Api documentation
+  description: This is an api documentation project to learn swagger
+  version: 1.0.1
+  contact:
+    email: rahulmondar@gmail.com
+    url: "https://rahulmondal.vercel.app"
+
+servers:
+  - url: "{protocol}://localhost:8000/api/{version}"
+    description: This is the localhost version of our api
+    variables:
+      version:
+        enum:
+          - v1
+          - v2
+        default: v1
+      protocol:
+        enum:
+          - http
+          - https
+        default: http
+  
+components:
+  securitySchemes:
+      BearerAuth:
+        type: http
+        scheme: bearer
+      ApiKeyAuth:
+        type: apiKey
+        in: cookie
+        name: token
+
+paths:
+  /smilyweb:
+    get:
+      tags:
+        - String
+      summery: Returns a greet message from smilyweb
+      responses:
+        200:
+          description: success / all good
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "myString"
+        400:
+          description: bad request
+        500:
+          description: internal server error
+  
+  /smilywebobject:
+    get:
+      tags:
+        - Object
+      summery: Returns a dummy object between available courses
+      responses:
+        200:
+          description: success / all good
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: string
+        400:
+          description: bad request
+        500:
+          description: internal server error
+  
+  /smilywebarray:
+    get:
+      tags:
+        - Array
+      summery: Returns an array of available courses
+      responses:
+        200:
+          description: success / all good
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    price:
+                      type: string
+        400:
+          description: bad request
+        500:
+          description: internal server error
+ 
+  /courses/{course_id}:
+    get:
+      tags:
+        - Object
+      summery: Returns an object of a course based on the search query
+      parameters:
+        - name: course_id
+          in: path
+          required: true
+          default: course_01
+          schema:
+            type: string
+      responses:
+        200:
+          description: success / all good
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: string
+        400:
+          description: bad request
+        500:
+          description: internal server error
+  
+  /create_course:
+    post:
+      tags:
+        - Object
+      summery: Returns an object of a new course depends on the request body
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object 
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                price:
+                  type: string
+      responses:
+        200:
+          description: success / all good
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: string
+        400:
+          description: bad request
+        500:
+          description: internal server error
+  
+  /searchqueryex:
+    get:
+      tags:
+        - Object
+      summery: Returns an object of the location and device based on the search query
+      parameters:
+        - name: location
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [Kolkata, London, L.A]
+        - name: device
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [web, android, ios]
+      responses:
+        200:
+          description: success / all good
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  location:
+                    type: string
+                  device:
+                    type: string
+        400:
+          description: bad request
+        500:
+          description: internal server error
+
+  /uploadimage:
+      post:
+        tags:
+          - String
+        summary: uploading sample image
+        parameters:
+          - in: header
+            name: auth
+        requestBody:
+          content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  file:
+                    type: string
+                    format: binary
+        responses:
+          200:
+            description: All good success
+                
+          400:
+            description: Bad request
+          500:
+            description: internal server error
+
